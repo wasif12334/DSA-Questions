@@ -1,35 +1,38 @@
-#include<iostream>
-#include <algorithm>
+#include <iostream>
 using namespace std;
-int binarysearch(int arr[],int size,int key){
-    int low=0;
-    int high=size;
- while (low <= high) {
-    int mid = (high +low) / 2;
+void selectionSort(int arr[], int n) {
+  int i, j, min_idx;
 
-    if (key == arr[mid]){
-      return mid;
-}
-    if (key > arr[mid]){
-      low = mid + 1;
-}
-    else
-      high = mid - 1;
+  // One by one move boundary of unsorted array
+  for (i = 0; i < n - 1; i++) {
+    // Find the minimum element in unsorted array
+    min_idx = i;
+    for (j = i + 1; j < n; j++)
+      if (arr[j] < arr[min_idx])
+        min_idx = j;
+    // Swap the found minimum element with the first element
+    swap(arr[min_idx], arr[i]);
   }
-    return -1;
 }
-int main(){
-    int arr[5]={1,555,30,22,4};
-    
-    sort(arr,arr+5);
-    int key;
-    cin>>key;
-    int value=binarysearch(arr,5,key);
-    if(value==-1){
-    	cout<<"not found "<<endl;
-	}
-	else if(value!=-1){
-    cout<<"Array found at : "<<value;
+// Function to print an array
+void printArray(int arr[], int size) {
+  int i;
+  for (i = 0; i < size; i++)
+    cout << arr[i] << " ";
+  cout << endl;
 }
 
+// main function
+int main() {
+  int arr[] = {64, 25, 12, 22, 11, 90};
+  int n = sizeof(arr) / sizeof(arr[0]);
+
+  cout << "Unsorted array: \n";
+  printArray(arr, n);
+
+  selectionSort(arr, n);
+
+  cout << "Sorted array: \n";
+  printArray(arr, n);
+  return 0;
 }

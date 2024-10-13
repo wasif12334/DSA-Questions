@@ -15,17 +15,17 @@ void bubble_sorting(int arr[],int size){
 }
 int main(){
  int array[8]={10,34,2,56,77,67,88,42};
- cout<<"Array Before Sorting : \n";
+ cout<<"\nArray Before Sorting : \n";
  cout<<"{ ";
- for(int i=0;i<10;i++){
+ for(int i=0;i<8;i++){
    cout<<array[i]<<",";
  }
   cout<<" }";
 
   bubble_sorting(array,8);
- cout<<"Array After Sorting  through bubble sorting: \n";
+ cout<<"\nArray After Sorting  through bubble sorting: \n";
  cout<<"{ ";
- for(int i=0;i<10;i++){
+ for(int i=0;i<8;i++){
    cout<<array[i]<<",";
  }
   cout<<" }";
