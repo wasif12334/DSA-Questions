@@ -1,6 +1,7 @@
 #include<iostream>
 #include <algorithm>
 using namespace std;
+//This is program in which we search a binary search
 int binarysearch(int arr[],int size,int key){
     int low=0;
     int high=size;
@@ -29,7 +30,7 @@ int main(){
     	cout<<"not found "<<endl;
 	}
 	else if(value!=-1){
-    cout<<"Array found at : "<<value;
+    cout<<"Element found at  index :- "<<value;
 }
 
 }
