@@ -6,7 +6,7 @@ void countSORT(int arr[],int size){
 	for(int i=0;i<size;i++){
        key = max(key, arr[i]);
 	 }
-	for(int i=0;i<size;i++){ //increment the count srray and count the number of elemnent and store it in count array
+	for(int i=0;i<size;i++){ //increment the count array and count the number of elemnent and store it in count array
 		count[arr[i]]++;
 	}
 	for(int i=1;i<=key;i++){//To update the count array

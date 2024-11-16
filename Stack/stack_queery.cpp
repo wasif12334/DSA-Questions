@@ -2,6 +2,7 @@
 using namespace std;
 class node{
    public:
+
     int data ;
     node *next;
     node(int value){
@@ -11,7 +12,7 @@ class node{
 };
 void Insertion_At_Tail(node &head,int val){
     node * newnode = new node(val);
-    if(head == NULL){
+    if(head = NULL)
       head = newnode;
       return ;
    }
@@ -19,8 +20,10 @@ void Insertion_At_Tail(node &head,int val){
  node *temp =head ;
  while(temp->next!=NULL){
   temp = temp - > next ;
+
  }
   temp - > next = newnode;
+
 }
 void display_ll(node head ){
    node * temp = heead ;
@@ -29,8 +32,11 @@ void display_ll(node head ){
    temp = temp -> next ;
    }
    cout<<endl;
+
 }
- int main(){
+ 
+int main(){
+
 node *head =NULL;
 Insertion_At_Tail(head,1);
 Insertion_At_Tail(head,2);
