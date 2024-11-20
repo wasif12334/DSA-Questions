@@ -1,11 +1,15 @@
 #include<iostream>
+#include <cctype>
 using namespace std;
 class Contact{
 	public:
 		string name;
 		int phone_number;
+	//	int key;
 		Contact *next;
-		
+		Contact(string k){
+			name = k ;
+		}
 		Contact(string n,int ph){
 			name = n;
 			phone_number = ph;
@@ -34,7 +38,7 @@ void insertion_at_tail(Contact* &head,string name,int phone_num){
 	}
 	temp->next = newcontact;
 	cout<<"\nContact sucessfully Added";
-}
+}}
 
 void display_contact(Contact*head){
    Contact * temp = head ;
@@ -48,12 +52,27 @@ void display_contact(Contact*head){
    }
    cout<<endl;
 }
+void search_contact(string key){
+	Contact* temp =head;
+	while(temp->next!=NULL){
+		if(temp->next->name==key){
+		 cout<< "Name : "<<temp->name<<endl ;
+         cout<< "Phone Number : "<<temp->phone_number<<endl ;
+   }
+		else if(temp->next->name!=key){
+			cout<<"\nContact Not Founded";
+		}
+		temp=temp->next;
+	}
+	
+}
 };
+
 int main(){
 ContactList contact;
 Contact*h = contact.head=NULL;
 int choice,phone_num;
-string name;
+string name,key;
 do{
 cout<<"||---------------------------------------------------------------------------------------------------------||\n";
 cout<<"\t\t\t\t\t------CONTACT BOOK------\n";
@@ -66,15 +85,24 @@ cout << "Enter your choice: ";
 cin>>choice;
 switch(choice){
 	case 1:
-		sleep(1);
-		system("cls");
-		cout<<"Enter the Name : ";
-		cin>>name;
-		cout<<"Enter the Phone number :";
-		cin>>phone_num;
-		contact.insertion_at_tail(h,name,phone_num);
+
+			cout<<"Enter the Name : ";
+			cin>>name;
+			cout<<"Enter the Phone number :";
+			cin>>phone_num;
+			contact.insertion_at_tail(h,name,phone_num);
+			sleep(1);
+			system("cls");
+			break;
 	case 2:
-		contact.display_contact(h);
+		 contact.display_contact(h);
+		 break;
+	case 3:
+		cout<<"Enter the name of contact which you want to search :";
+		cin>>key;
+		contact.search_contact(key);
+		break;
+		
 	default:
 		cout<<"";
 }
