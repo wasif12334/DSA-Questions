@@ -23,7 +23,7 @@ head = nullptr;
 
 void append(int data) {
 Node* newNode = new Node(data);
-if (!head) {
+if (head==NULL) {
 head = newNode;
 return;
 }
@@ -35,9 +35,9 @@ last->next = newNode;
 }
 
 int size() {
-int count = 0;
+int count = 1;
 Node* current = head;
-while (current) {
+while (current->next!=nullptr) {
 count++;
 current = current->next;
 }
@@ -50,6 +50,7 @@ LinkedList ll;
 ll.append(1);
 ll.append(2);
 ll.append(3);
+ll.append(50);
 cout << "Number of nodes in linked list: " << ll.size() << endl;
 return 0;
 }

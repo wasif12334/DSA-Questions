@@ -2,7 +2,7 @@
 using namespace std;
 class node{
    public:
-    string data ;
+    string   ;
     node *next;
     node(string value){
       data =value ;
@@ -45,13 +45,13 @@ void display_ll(node* head ){
 node *head =NULL;
 Insertion_At_Tail(head,"Wasif");
 Insertion_At_Tail(head,"Kashif");
-Insertion_At_Tail(head,"Shafia");
+Insertion_At_Tail(head,"abdullah");
 Insertion_At_Tail(head,"Afzal");
-Insertion_At_Tail(head,"Rabia");
-Insertion_At_Tail(head,"Kousar");
+Insertion_At_Tail(head,"huzafia");
+Insertion_At_Tail(head,"ali");
 
 display_ll(head);
-Insertion_at_head(head,"Parveen");
+Insertion_at_head(head,"Naveed");
 display_ll(head);
 
 }

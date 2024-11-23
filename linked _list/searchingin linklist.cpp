@@ -22,7 +22,7 @@ public:
 
     void append(int data) {
         Node* newNode = new Node(data);
-        if (!head) {
+        if (head==nullptr) {
             head = newNode;
             return;
         }
