@@ -2,7 +2,7 @@
 using namespace std;
 class node{
    public:
-    string   ;
+    string  data ;
     node *next;
     node(string value){
       data =value ;
