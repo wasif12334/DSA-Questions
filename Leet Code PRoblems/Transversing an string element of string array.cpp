@@ -1,5 +1,4 @@
- 
- uuu#include<iostream>
+#include<iostream>
 using namespace std;
 int main(){
 	string arr[3] = { "Wasif","Zohiab","Abdullah"};
