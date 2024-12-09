@@ -23,6 +23,8 @@ void Insertion_At_Tail(node* &head,string val){
       return ;
    }
 
+   
+
  node *temp =head ;
  while(temp->next!=NULL){
   temp = temp -> next ;
@@ -32,13 +34,14 @@ void Insertion_At_Tail(node* &head,string val){
 void display_ll(node* head ){
 	int count = 0;
    node * temp = head ;
+   cout<<"\n";
    while (temp!=NULL){
    cout<< temp->data <<" -> ";
    temp = temp -> next ;
    count ++ ;
 
    }
-   cout<<"NULL"<<endl;
+   cout<<"NULL\n"<<endl;
    cout<<"\nTotal nodes in this linkedList are : "<<count<<endl;
 }
  int main(){
