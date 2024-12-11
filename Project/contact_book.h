@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <string>
+#include<iomanip>
 
 using namespace std;
 
@@ -10,8 +11,7 @@ class ContactBook {
 public:
     // Struct for Contact
     struct Contact {
-        string name;
-        int phone_number;
+        string name,phone_number;
         Contact* next;
     };
 
@@ -22,7 +22,7 @@ public:
     }
 
     // Function to add a contact
-    void add_contact(string name, int phone_number) {
+    void add_contact(string name, string  phone_number) {
         Contact* new_contact = new Contact{name, phone_number, nullptr};
 
         if (!head) {
@@ -37,15 +37,21 @@ public:
     }
 
     // Function to display all contacts
+   // Function to display all contacts in a table format
     void display_contacts() {
         if (head == nullptr) {
             cout << "\nNo contacts available.\n";
             return;
         }
 
+        // Displaying table headers
+        cout << left << setw(20) << "Name" << setw(15) << "Phone Number" << endl;
+        cout << "----------------------------------------" << endl;
+
+        // Display contacts in table rows
         Contact* temp = head;
         while (temp) {
-            cout << "Name: " << temp->name << ", Phone: " << temp->phone_number << endl;
+            cout << left << setw(20) << temp->name << setw(15) << temp->phone_number << endl;
             temp = temp->next;
         }
     }

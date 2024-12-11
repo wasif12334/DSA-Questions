@@ -12,19 +12,20 @@ int main() {
     Color(2);  // Set text color to green
     ContactBook book;  // Create an instance of the ContactBook class
 
-    int choice, phone_num;
-    string name, key;
+    int choice;
+
+    string name, key, phone_num;
 
     do {
         cout << "\n\t\t\t\t\t _____________________________________________\n";
-        cout << "\t\t\t\t\t|\t     ------CONTACT BOOK------      |\n";
-        cout << "\t\t\t\t\t|  1- Add Contact                      |\n";
-        cout << "\t\t\t\t\t|  2- Display All Contacts             |\n";
-        cout << "\t\t\t\t\t|  3- Search Contact                   |\n";
-        cout << "\t\t\t\t\t|  4- Delete Contact                   |\n";
-        cout << "\t\t\t\t\t|  5- Reset All Contacts               |\n";
-        cout << "\t\t\t\t\t|  6- Exit                             |\n";
-        cout << "\t\t\t\t\t|________________________________________|\n";
+        cout << "\t\t\t\t\t|\t     ------CONTACT BOOK------\t      |\n";
+        cout << "\t\t\t\t\t|  1- Add Contact \t                      |\n";
+        cout << "\t\t\t\t\t|  2- Display All Contacts \t              |\n";
+        cout << "\t\t\t\t\t|  3- Search Contact\t                      |\n";
+        cout << "\t\t\t\t\t|  4- Delete Contact\t                      |\n";
+        cout << "\t\t\t\t\t|  5- Reset All Contacts\t              |\n";
+        cout << "\t\t\t\t\t|  6- Exit\t                              |\n";
+        cout << "\t\t\t\t\t|________________________________________     |\n";
 
         cout << "\nEnter your choice: ";
         cin >> choice;
