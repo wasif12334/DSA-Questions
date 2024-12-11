@@ -44,7 +44,7 @@ int main() {
             book.add_contact(name, phone_num);
             break;
         case 2:
-            book.sort_contacts();
+     book.merge_sort();
             book.display_contacts();
             break;
         case 3:

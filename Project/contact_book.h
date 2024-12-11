@@ -115,34 +115,70 @@ public:
         cout << "\nAll contacts have been reset.\n";
     }
 
-    // Sorting function to sort the contacts by name using bubble sort
-    void sort_contacts() {
+    // Sorting function to sort the contacts by name using Merge Sort
+    void merge_sort() {
         if (head == nullptr || head->next == nullptr) {
             return;  // No need to sort if the list is empty or has only one contact
         }
 
-        bool swapped;
-        do {
-            swapped = false;
-            Contact* temp = head;
+        head = merge_sort_recursive(head);  // Start merge sort on the linked list
+    }
 
-            while (temp && temp->next) {
-                if (temp->name > temp->next->name) {
-                    // Swap the contacts
-                    string tempName = temp->name;
-                    int tempPhone = temp->phone_number;
-                    temp->name = temp->next->name;
-                    temp->phone_number = temp->next->phone_number;
-                    temp->next->name = tempName;
-                    temp->next->phone_number = tempPhone;
-                    swapped = true;
-                }
-                temp = temp->next;
+private:
+    // Merge Sort recursive function
+    Contact* merge_sort_recursive(Contact* head) {
+        if (head == nullptr || head->next == nullptr) {
+            return head;  // Base case: single element or empty list
+        }
+
+        Contact* left = nullptr;
+        Contact* right = nullptr;
+
+        // Split the list into two halves
+        split(head, left, right);
+
+        // Recursively sort the two halves
+        left = merge_sort_recursive(left);
+        right = merge_sort_recursive(right);
+
+        // Merge the sorted halves and return the sorted list
+        return merge(left, right);
+    }
+
+    // Merge two sorted linked lists
+    Contact* merge(Contact* left, Contact* right) {
+        if (!left) return right;
+        if (!right) return left;
+
+        // Compare the names of the contacts
+        if (left->name < right->name) {
+            left->next = merge(left->next, right);
+            return left;
+        } else {
+            right->next = merge(left, right->next);
+            return right;
+        }
+    }
+
+    // Split the list into two halves
+    void split(Contact* head, Contact*& left, Contact*& right) {
+        Contact* slow = head;
+        Contact* fast = head->next;
+
+        // Move fast pointer two steps and slow pointer one step
+        while (fast) {
+            fast = fast->next;
+            if (fast) {
+                slow = slow->next;
+                fast = fast->next;
             }
-        } while (swapped);
+        }
+
+        // Split the list into two halves
+        left = head;
+        right = slow->next;
+        slow->next = nullptr;  // Disconnect the two halves
     }
 };
-
-
 
 #endif
