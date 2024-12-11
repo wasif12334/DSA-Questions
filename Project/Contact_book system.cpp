@@ -1,138 +1,250 @@
-#include<iostream>
-#include <cctype>
+#include <iostream>
+#include <fstream>
+#include <string>
 #include <windows.h>
 using namespace std;
-//TO cahnge the color of text
-void Color(int color){
- SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
+
+// Utility function to change text color
+void Color(int color) {
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
 }
 
-//This is te node of contact
-class Contact{
-	public:
-		string name;
-		int phone_number;
-		Contact *next;
-		Contact(int val){
-			name = val;
-			next =NULL;
-		}
-		Contact(string n,int ph){
-			name = n;
-			phone_number = ph;
-			next = NULL;
-			}
+// Class for managing contacts
+class ContactBook {
+private:
+    // Node structure for storing contact details
+    class Contact {
+    public:
+        string name;
+        int phone_number;
+        Contact* next;
+
+        Contact(string n, int ph) {
+            name = n;
+            phone_number = ph;
+            next = NULL;
+        }
+    };
+
+    Contact* head; // Head pointer for the linked list
+
+    // Save contacts to a file
+    void save_to_file() {
+        ofstream file("contacts.txt", ios::trunc); // Open file in truncate mode
+        if (file.is_open()) {
+            Contact* temp = head;
+            while (temp != NULL) {
+                file << temp->name << " " << temp->phone_number << endl;
+                temp = temp->next;
+            }
+            file.close();
+        } else {
+            cout << "Error opening file to save contacts." << endl;
+        }
+    }
+
+public:
+    // Constructor to initialize the contact list
+    ContactBook() : head(NULL) {
+        load_from_file(); // Load contacts from file at startup
+    }
+
+    // Destructor to free memory
+    ~ContactBook() {
+        Contact* current = head;
+        while (current != NULL) {
+            Contact* next = current->next;
+            delete current;
+            current = next;
+        }
+    }
+
+    // Load contacts from a file
+    void load_from_file() {
+        ifstream file("contacts.txt");
+        if (file.is_open()) {
+            string name;
+            int phone_number;
+            while (file >> name >> phone_number) {
+                add_contact(name, phone_number, false); // Add contact without saving to avoid recursive calls
+            }
+            file.close();
+        } else {
+            cout << "No existing contact file found. Starting fresh." << endl;
+        }
+    }
+
+    // Add a new contact
+    void add_contact(string name, int phone_num, bool save = true) {
+        Contact* newContact = new Contact(name, phone_num);
+        if (head == NULL) {
+            head = newContact;
+        } else {
+            Contact* temp = head;
+            while (temp->next != NULL) {
+                temp = temp->next;
+            }
+            temp->next = newContact;
+        }
+        cout << "\nContact successfully added." << endl;
+        if (save) save_to_file();
+    }
+
+
+// Display all contacts in a table format
+void display_contacts() const {
+    Contact* temp = head;
+    if (!temp) {
+        cout << "No contacts available." << endl;
+        return;
+    }
+
+    // Print the table header
+    cout << "\n-------------------------------------------------" << endl;
+    cout << "|   Name 	  |   Phone Number   |" << endl;
+    cout << "-------------------------------------------------" << endl;
+
+    // Print each contact in a row
+    while (temp != NULL) {
+        cout << "| " << temp->name << "  	  | ";
+        cout << " "<<temp->phone_number << "\t      |" << endl;
+        cout << "-------------------------------------------------" << endl;
+        temp = temp->next;
+    }
+    cout << endl;
+}
+
+    // Search for a contact by name
+    void search_contact(string key) const {
+        Contact* temp = head;
+        bool found = false;
+        while (temp != NULL) {
+            if (temp->name == key) {
+                cout << "Name: " << temp->name << endl;
+                cout << "Phone Number: " << temp->phone_number << endl;
+                found = true;
+                break;
+            }
+            temp = temp->next;
+        }
+        if (!found) {
+            cout << "\nContact Not Found." << endl;
+        }
+    }
+
+    // Delete a contact by name
+    void delete_contact(string val) {
+        if (head == NULL) {
+            cout << "\nNo contacts to delete." << endl;
+            return;
+        }
+
+        if (head->name == val) {
+            Contact* toDelete = head;
+            head = head->next;
+            delete toDelete;
+            cout << "\nThe contact has been successfully deleted!" << endl;
+            save_to_file();
+            return;
+        }
+
+        Contact* temp = head;
+        while (temp->next != NULL && temp->next->name != val) {
+            temp = temp->next;
+        }
+
+        if (temp->next == NULL) {
+            cout << "\nThere is no contact with the name: " << val << endl;
+        } else {
+            Contact* toDelete = temp->next;
+            temp->next = temp->next->next;
+            delete toDelete;
+            cout << "\nThe contact has been successfully deleted!" << endl;
+            save_to_file();
+        }
+    }
+
+    // Reset all contacts (delete from memory and file)
+    void reset_contacts() {
+        // Delete all nodes in the linked list
+        Contact* current = head;
+        while (current != NULL) {
+            Contact* next = current->next;
+            delete current;
+            current = next;
+        }
+        head = NULL;
+
+        // Clear the file
+        ofstream file("contacts.txt", ios::trunc);
+        if (file.is_open()) {
+            file.close();
+            cout << "\nAll contacts have been reset!" << endl;
+        } else {
+            cout << "\nError clearing contacts file." << endl;
+        }
+    }
 };
-Contact *head = NULL;
 
-//To display All Contacts
-void display_contact(Contact*head){
-   Contact * temp = head ;
-   while (temp!=NULL){
-   cout<< "Name : "<<temp->name<<endl ;
-   cout<< "Phone Number : "<<temp->phone_number<<endl ;
-   temp = temp -> next ;
-   }
-   cout<<endl;
-}
-//To serach the specific contact
-void search_contact(Contact* &head,string key){
-	Contact *temp = head;
-	while(temp->next!=NULL){
-		if(temp->name==key){
-		 cout<< "Name : "<<temp->name<<endl ;
-         cout<< "Phone Number : "<<temp->phone_number<<endl ;
-   }
-		else if(temp->name!=key){
-			cout<<"\nContact Not Founded";
-		}
-		temp=temp->next;
-	}
-	
-}
-//Add the new contact to list
-void insertion_at_tail(Contact* &head,string name,int phone_num){
-	Contact* newcontact = new Contact(name,phone_num);
-	if(head==NULL){
-		head = newcontact;
-		return ;
-}
-	Contact *temp = head;
-	while (temp->next!=NULL){
-		temp=temp->next;
-		
-	}
-	temp->next = newcontact;
-	cout<<"\nContact sucessfully Added";
-}
-//Delteting the contact from list
-void deltetion_of_contact(Contact* &head,string val){
-		Contact *temp = head;
-		if(head->name==val){
-			head = head->next;
-			delete temp;
-		}
-	while(temp->next!=NULL){
-		if(temp->name==val){
-	       Contact *todelelte = temp->next;
-	       temp->next=temp->next->next;
-	       delete todelelte;
-   }
-		else 
-		   {
-		   	 cout<<"\nThere is no contact of name : "<<temp->name<<endl;
-		   }
-		temp=temp->next;
-	}
-	cout<<"\nThe contact has sucessfully deleted !\n"<<temp->name;
-}
-//main program
-int main(){
-	Color(2);
-Contact *head=NULL;
-Contact *h =head;
-int choice,phone_num;
-string name,key;
-do{
-cout<<"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t ___________________________________________________________________\n";
-cout<<"\t\t\t\t\t|\t-------------------------------------------------------     |\n";
-cout<<"\t\t\t\t\t|\t\t\t------CONTACT BOOK------\t\t    |\n";
-cout<<"\t\t\t\t\t|\t\t\t1-Add Contact\t\t\t\t    |\n";
-cout<<"\t\t\t\t\t|\t\t\t2-Dispaly All Contact\t\t\t    |\n";
-cout<<"\t\t\t\t\t|\t\t\t3-Search Contact\t\t\t    |\n";
-cout<<"\t\t\t\t\t|\t\t\t4-Delete Contact\t\t\t    |\n";
-cout<<"\t\t\t\t\t|\t\t\t5-Exit\t\t\t\t\t    |\n";
-cout<<"\t\t\t\t\t|___________________________________________________________________|\n";
+// Main function
+int main() {
+    Color(2);
+    ContactBook book;
 
-cout<<"\nEnter your choice: " ;
-cin>>choice;
+    int choice, phone_num;
+    string name, key;
 
-switch(choice){
-	case 1:
-			cout<<"Enter the Name : ";
-			cin>>name;
-			cout<<"Enter the Phone number :";
-			cin>>phone_num;
-			insertion_at_tail(h,name,phone_num);
-			sleep(1);
-			system("cls");
-			break;
-	case 2:
-		display_contact(h);
-		 break;
-	case 3:
-		cout<<"Enter the name of contact which you want to search :";
-		cin>>key;
-		search_contact(h,key);
-		break;
-	case 4:
-		cout<<"Enter the name : ";
-		cin>>name;
-		deltetion_of_contact(h,name);
-		break;
-	
-	default:
-		cout<<"\n\nTry again !";
-}
-}while(choice!=5);
+    do {
+        cout << "\n\t\t\t\t\t _____________________________________________\n";
+        cout << "\t\t\t\t\t|\t     ------CONTACT BOOK------      |\n";
+        cout << "\t\t\t\t\t|  1- Add Contact                      |\n";
+        cout << "\t\t\t\t\t|  2- Display All Contacts             |\n";
+        cout << "\t\t\t\t\t|  3- Search Contact                   |\n";
+        cout << "\t\t\t\t\t|  4- Delete Contact                   |\n";
+        cout << "\t\t\t\t\t|  5- Reset All Contacts               |\n";
+        cout << "\t\t\t\t\t|  6- Exit                             |\n";
+        cout << "\t\t\t\t\t|________________________________________|\n";
+
+        cout << "\nEnter your choice: ";
+        cin >> choice;
+
+        // Clear buffer after choice input
+      cin.ignore();
+
+        system("cls"); // Optional: Clears the screen for better UX
+
+        switch (choice) {
+        case 1:
+            cout << "Enter the Name: ";
+            getline(cin, name); // Use getline for names with spaces
+            cout << "Enter the Phone Number: ";
+            cin >> phone_num;
+            cin.ignore(); // Clear buffer
+            book.add_contact(name, phone_num);
+            break;
+        case 2:
+            book.display_contacts();
+            break;
+        case 3:
+            cout << "Enter the name of the contact you want to search: ";
+            getline(cin, key);
+            book.search_contact(key);
+            break;
+        case 4:
+            cout << "Enter the name: ";
+            getline(cin, name);
+            book.delete_contact(name);
+            break;
+        case 5:
+            book.reset_contacts();
+            break;
+        case 6:
+            cout << "\nExiting...";
+            break;
+        default:
+            cout << "\nInvalid choice. Try again!\n";
+        }
+    } while (choice != 6);
+
+    return 0;
 }
